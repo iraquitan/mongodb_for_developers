@@ -1,4 +1,3 @@
-
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
 #
@@ -40,7 +39,6 @@ __author__ = 'aje'
 # This route is the main page of the blog
 @bottle.route('/')
 def blog_index():
-
     cookie = bottle.request.get_cookie("session")
 
     username = sessions.get_username(cookie)
@@ -71,7 +69,6 @@ def present_login():
 # handles a login request
 @bottle.post('/login')
 def process_login():
-
     username = bottle.request.forms.get("username")
     password = bottle.request.forms.get("password")
 
@@ -109,7 +106,6 @@ def present_internal_error():
 
 @bottle.get('/logout')
 def process_logout():
-
     cookie = bottle.request.get_cookie("session")
 
     sessions.end_session(cookie)
@@ -121,7 +117,6 @@ def process_logout():
 
 @bottle.post('/signup')
 def process_signup():
-
     email = bottle.request.forms.get("email")
     username = bottle.request.forms.get("username")
     password = bottle.request.forms.get("password")
@@ -159,6 +154,7 @@ def present_welcome():
 
     return bottle.template("welcome", {'username': username})
 
+
 # Helper Functions
 
 
@@ -192,13 +188,13 @@ def validate_signup(username, password, verify, email, errors):
             return False
     return True
 
+
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)
 database = connection.blog
 
 users = userDAO.UserDAO(database)
 sessions = sessionDAO.SessionDAO(database)
-
 
 bottle.debug(True)
 # Start the webserver running and wait for requests

@@ -1,6 +1,5 @@
 __author__ = 'aje'
 
-
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
 #
@@ -26,7 +25,6 @@ import string
 # collection
 
 class SessionDAO:
-
     def __init__(self, database):
         self.db = database
         self.sessions = database.sessions
