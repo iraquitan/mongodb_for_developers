@@ -38,8 +38,9 @@ class SessionDAO:
 
         try:
             self.sessions.insert_one(session)
-        except:
-            print "Unexpected error on start_session:", sys.exc_info()[0]
+        except Exception as e:
+            print("Unexpected error on start_session: {0} -- {1}".format(
+                sys.exc_info()[0], e))
             return None
 
         return str(session['_id'])
@@ -74,7 +75,8 @@ class SessionDAO:
         else:
             return session['username']
 
-    def get_random_str(self, num_chars):
+    @staticmethod
+    def get_random_str(num_chars):
         random_string = ""
         for i in range(num_chars):
             random_string = random_string + random.choice(string.ascii_letters)
