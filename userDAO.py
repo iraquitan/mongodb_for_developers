@@ -1,5 +1,3 @@
-
-
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
 #
@@ -26,14 +24,14 @@ import pymongo
 # The User Data Access Object handles all interactions with the User
 # collection.
 class UserDAO:
-
     def __init__(self, db):
         self.db = db
         self.users = self.db.users
         self.SECRET = 'verysecret'
 
     # makes a little salt
-    def make_salt(self):
+    @staticmethod
+    def make_salt():
         salt = ""
         for i in range(5):
             salt = salt + random.choice(string.ascii_letters)
@@ -44,10 +42,10 @@ class UserDAO:
     # HASH(pw + salt),salt
     # use sha256
 
-    def make_pw_hash(self, pw,salt=None):
-        if salt == None:
+    def make_pw_hash(self, pw, salt=None):
+        if salt is None:
             salt = self.make_salt();
-        return hashlib.sha256(pw + salt).hexdigest()+","+ salt
+        return hashlib.sha256(pw + salt).hexdigest() + "," + salt
 
     # Validates a user login. Returns user record or None
     def validate_login(self, username, password):
@@ -57,18 +55,18 @@ class UserDAO:
             # XXX HW 2.3 Students Work Here
             # you will need to retrieve right document from the users
             # collection.
-            print "This space intentionally left blank."
-        except:
-            print "Unable to query database for user"
+            print("This space intentionally left blank.")
+        except Exception as e:
+            print("Unable to query database for user: {}".format(e))
 
         if user is None:
-            print "User not in database"
+            print("User not in database")
             return None
 
         salt = user['password'].split(',')[1]
 
         if user['password'] != self.make_pw_hash(password, salt):
-            print "user password is not a match"
+            print("user password is not a match")
             return None
 
         # Looks good
@@ -87,15 +85,13 @@ class UserDAO:
             # You need to insert the user into the users collection.
             # Don't over think this one, it's a straight forward insert.
 
-            print "This space intentionally left blank."
+            print("This space intentionally left blank.")
 
         except pymongo.errors.OperationFailure:
-            print "oops, mongo error"
+            print("oops, mongo error")
             return False
         except pymongo.errors.DuplicateKeyError as e:
-            print "oops, username is already taken"
+            print("oops, username is already taken")
             return False
 
         return True
-
-
