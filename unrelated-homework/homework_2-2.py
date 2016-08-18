@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+"""
+ * Created by PyCharm.
+ * Project: login_logout_signup
+ * Author name: Iraquitan Cordeiro Filho
+ * Author login: pma007
+ * File: homework_3-1
+ * Date: 8/18/16
+ * Time: 11:47
+ * To change this template use File | Settings | File Templates.
+
+.. moduleauthor:: Iraquitan Cordeiro Filho <iraquitanfilho@gmail.com>
+
+"""
 import pymongo
 
 connection_string = "mongodb://localhost"
