@@ -53,20 +53,27 @@ class BlogPostDAO:
         # now insert the post
         try:
             # XXX HW 3.2 Work Here to insert the post
+            self.posts.insert_one(post)
             print("Inserting the post")
-        except:
+        except Exception as e:
             print("Error inserting post")
-            print("Unexpected error:", sys.exc_info()[0])
+            print("Unexpected error: {0} -- {1}".format(sys.exc_info()[0], e))
 
         return permalink
 
     # returns an array of num_posts posts, reverse ordered by date.
     def get_posts(self, num_posts):
 
-        cursor = iter(())  # Using an empty itable for a placeholder so blog 
+        cursor = iter(())  # Using an empty iterable for a placeholder so blog
         # compiles before you make your changes
 
         # XXX HW 3.2 Work here to get the posts
+        sort_ = [('date', -1)]
+        try:
+            cursor = self.posts.find().sort(sort_).limit(num_posts)
+        except Exception as e:
+            print("Error trying to get posts")
+            print("Unexpected error: {}".format(e))
 
         l = []
 
@@ -92,6 +99,11 @@ class BlogPostDAO:
 
         post = None
         # XXX 3.2 Work here to retrieve the specified post
+        try:
+            post = self.posts.find_one({'permalink': permalink})
+        except Exception as e:
+            print("Error getting post by permalink")
+            print("Unexpected error: {}".format(e))
 
         if post is not None:
             # fix up date
