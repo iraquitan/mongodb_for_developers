@@ -116,18 +116,24 @@ class BlogPostDAO:
 
         comment = {'author': name, 'body': body}
 
-        if (email != ""):
+        if email != "":
             comment['email'] = email
 
         try:
             # XXX HW 3.3 Work here to add the comment to the designated post. 
             # When done, modify the line below to return the number of 
             # documents updated by your modification, rather than just -1.
+            doc = self.posts.find_one_and_update(
+                {'permalink': permalink}, {'$push': {'comments': comment}})
 
-            return -1  # Change this to return the number of documents updated 
-            # by the code for HW 3.3
+            # Change this to return the number of
+            # documents updated by the code for HW 3.3
+            if doc is None:
+                return 0
+            else:
+                return 1
 
-        except:
+        except Exception as e:
             print("Could not update the collection, error")
-            print("Unexpected error:", sys.exc_info()[0])
+            print("Unexpected error: {0} -- {1}".format(sys.exc_info()[0], e))
             return 0
